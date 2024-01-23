@@ -16,6 +16,10 @@ Or
 bun run src/main.ts
 ```
 
+## Integration script
+
+- [qna3](https://qna3.ai/vote)
+
 ## Issue
 
 If the changes made to .prettierrc are not taking effect, please try restarting VSCode.
