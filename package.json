@@ -1,0 +1,24 @@
+{
+  "name": "massive-pump",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^18.4.4",
+    "@commitlint/config-conventional": "^18.4.4",
+    "@types/bun": "latest",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.2.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "lint-staged": {
+    "src/**/*.{js,ts,cjs}": [
+      "prettier -w"
+    ]
+  }
+}
