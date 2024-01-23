@@ -1,3 +1,4 @@
+import { binanceClient } from '@/cex/binance/client'
 import { okxClient } from '@/cex/okx/client'
 import {
   createPublicClient,
@@ -45,7 +46,7 @@ export const depositFromAssetAccount = async (
     })
 }
 
-// 从 okx 交易所充值
+// 从 okx 提币
 export const depositFromOkx = async (
   account: Account,
   amount: number,
@@ -55,9 +56,19 @@ export const depositFromOkx = async (
     .withdraw(ccy, amount, account.address, '', {
       pwd: '-'
     })
-    .then((res) => {
-      console.log(`${account.address} 充值交易hash: `, res)
+    .then(() => {
+      console.log(`${account.address} 充值交易hash: `)
     })
 }
 
-export const depositFromBinance = async () => {}
+// 从 binance 提币
+export const depositFromBinance = async (
+  account: Account,
+  code: string,
+  amount: number
+) => {
+  // withdraw(code: string, amount: any, address: any, tag?: any, params?: {}): Promise<Transaction>;
+  binanceClient.withdraw(code, amount, account.address, '', {}).then(() => {
+    console.log(`${account.address} 充值交易hash: `)
+  })
+}

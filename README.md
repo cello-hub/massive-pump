@@ -1,10 +1,12 @@
+> "massive pump" means "巨大的泵"
+
 # Run
 
 Install the **Code Runner** plugin for VSCode
 
 Then install dependencies:
 
-```
+```bash
 bun i
 ```
 
@@ -13,7 +15,7 @@ Open ts file and click on the run button in the top right corner of the window.
 Or
 
 ```bash
-bun run src/main.ts
+bun run src/<file_path>
 ```
 
 ## Integration script

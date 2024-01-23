@@ -16,6 +16,8 @@ const mnemonic = process.env.MNEMONIC || ''
 const rpc = process.env.BNB_RPC
 const involveAccountCount = 100
 
+const accounts = generateAccounts(mnemonic, involveAccountCount)
+
 const publicClient = createPublicClient({
   chain,
   transport: http(rpc)
@@ -94,8 +96,6 @@ const checkIn = async (token: string, hash: Hex, via: string) => {
 
 // 给账户充值
 const deposit = () => {
-  const accounts = generateAccounts(mnemonic, involveAccountCount)
-
   binanceClient
     .withdraw('BNB', 0.01, accounts[0].address, '', {})
     .then(() => {})
@@ -103,7 +103,6 @@ const deposit = () => {
 }
 
 const run = () => {
-  const accounts = generateAccounts(mnemonic, involveAccountCount)
   accounts.forEach((account) => {
     signIn(
       account,
