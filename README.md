@@ -28,7 +28,7 @@ bun run src/<file_path>
 
 注意: 从 okx 提币, 地址需要在白单内(不建议)。从 binance 提币需要设置 ip, 使用代理的情况下, 通过 [ip地址查询](https://nordvpn.com/zh/ip-lookup) 获取你的代理服务器地址
 
-提币方法见 `src/accouts/deposit.ts`
+提币方法见 `src/accouts/withdraw.ts`
 
 ## Issue
 
