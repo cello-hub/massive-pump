@@ -17,7 +17,12 @@ export const depositFromAssetAccount = async (
   target: Address,
   value: bigint
 ) => {
-  const account = privateKeyToAccount('0x')
+  if (!process.env.ASSET_ACCOUNT_SECRET) {
+    throw new Error('ASSET_ACCOUNT_SECRET is not set in .env file')
+  }
+
+  const secret = process.env.ASSET_ACCOUNT_SECRET as Address
+  const account = privateKeyToAccount(secret)
 
   const walletClient = createWalletClient({
     chain,
@@ -48,26 +53,24 @@ export const depositFromAssetAccount = async (
 
 // 从 okx 提币 (地址需要在白单中)
 export const depositFromOkx = async (
-  account: Account,
+  address: Address,
+  ccy: string,
   amount: number,
-  ccy: string
+  params: any = {
+    pwd: '-'
+  },
+  tags: any = ''
 ) => {
-  okxClient
-    .withdraw(ccy, amount, account.address, '', {
-      pwd: '-'
-    })
-    .then(() => {
-      console.log(`${account.address} 充值交易hash: `)
-    })
+  return okxClient.withdraw(ccy, amount, address, tags, params)
 }
 
 // 从 binance 提币
 export const depositFromBinance = async (
-  account: Account,
+  address: Address,
   coin: string,
-  amount: number
+  amount: number,
+  params: any = {},
+  tags: any = ''
 ) => {
-  binanceClient.withdraw(coin, amount, account.address, '', {}).then(() => {
-    console.log(`${account.address} 充值交易hash: `)
-  })
+  return binanceClient.withdraw(coin, amount, address, tags, params)
 }

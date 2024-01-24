@@ -9,11 +9,13 @@ import {
 import { generateAccounts } from '@/accouts'
 import type { Account } from 'viem/accounts'
 import { bsc } from 'viem/chains'
-import { binanceClient } from '@/cex/binance/client'
+import { depositFromBinance } from '@/accouts/deposit'
 
 const chain = bsc
 const mnemonic = process.env.MNEMONIC || ''
 const rpc = process.env.BNB_RPC
+
+// 参与的地址数量
 const involveAccountCount = 100
 
 const accounts = generateAccounts(mnemonic, involveAccountCount)
@@ -96,10 +98,15 @@ const checkIn = async (token: string, hash: Hex, via: string) => {
 
 // 给账户充值
 const deposit = () => {
-  binanceClient
-    .withdraw('BNB', 0.01, accounts[0].address, '', {})
-    .then(() => {})
-  accounts.forEach((account) => {})
+  accounts.forEach((account) => {
+    depositFromBinance(account.address, 'BNB', 0.01)
+      .then(() => {
+        console.log(`${account.address} 充值成功`)
+      })
+      .catch((err) => {
+        console.log(`${account.address} 充值失败`, err)
+      })
+  })
 }
 
 const run = () => {
