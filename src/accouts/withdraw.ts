@@ -4,13 +4,14 @@ import {
   createPublicClient,
   createWalletClient,
   http,
-  type Account,
   type Address
 } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import type { Chain } from 'viem/chains'
 
-// 从链上钱包转账
+/**
+ * 从链上钱包转账
+ */
 export const withdrawFromAssetAccount = async (
   chain: Chain,
   rpc: string,
@@ -51,7 +52,9 @@ export const withdrawFromAssetAccount = async (
     })
 }
 
-// 从 okx 提币 (地址需要在白单中)
+/**
+ * 从 okx 提币 (地址需要在白单中)
+ */
 export const withdrawFromOkx = async (
   address: Address,
   ccy: string,
@@ -64,7 +67,9 @@ export const withdrawFromOkx = async (
   return okxClient.withdraw(ccy, amount, address, tags, params)
 }
 
-// 从 binance 提币
+/**
+ * 从 binance 提币
+ */
 export const withdrawFromBinance = async (
   address: Address,
   coin: string,

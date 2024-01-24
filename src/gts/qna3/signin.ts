@@ -8,14 +8,12 @@ import {
 } from 'viem'
 import { generateAccounts } from '@/accouts'
 import type { Account } from 'viem/accounts'
-import { bsc } from 'viem/chains'
+import { opBNB } from 'viem/chains'
 import { withdrawFromBinance } from '@/accouts/withdraw'
 
-const chain = bsc
+const chain = opBNB
 const mnemonic = process.env.MNEMONIC || ''
-const rpc = process.env.BNB_RPC
-
-// 参与的地址数量
+const rpc = process.env.OPBNB_RPC
 const involveAccountCount = 100
 
 const accounts = generateAccounts(mnemonic, involveAccountCount)
@@ -28,7 +26,7 @@ const publicClient = createPublicClient({
 // 获取 token
 const getUserToken = async (account: Account) => {
   const walletClient = createWalletClient({
-    chain: bsc,
+    chain,
     account,
     transport: http(rpc)
   })
