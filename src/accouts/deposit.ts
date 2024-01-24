@@ -46,7 +46,7 @@ export const depositFromAssetAccount = async (
     })
 }
 
-// 从 okx 提币
+// 从 okx 提币 (地址需要在白单中)
 export const depositFromOkx = async (
   account: Account,
   amount: number,
@@ -64,11 +64,10 @@ export const depositFromOkx = async (
 // 从 binance 提币
 export const depositFromBinance = async (
   account: Account,
-  code: string,
+  coin: string,
   amount: number
 ) => {
-  // withdraw(code: string, amount: any, address: any, tag?: any, params?: {}): Promise<Transaction>;
-  binanceClient.withdraw(code, amount, account.address, '', {}).then(() => {
+  binanceClient.withdraw(coin, amount, account.address, '', {}).then(() => {
     console.log(`${account.address} 充值交易hash: `)
   })
 }
