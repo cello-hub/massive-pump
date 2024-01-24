@@ -11,7 +11,7 @@ import { privateKeyToAccount } from 'viem/accounts'
 import type { Chain } from 'viem/chains'
 
 // 从链上钱包转账
-export const depositFromAssetAccount = async (
+export const withdrawFromAssetAccount = async (
   chain: Chain,
   rpc: string,
   target: Address,
@@ -52,7 +52,7 @@ export const depositFromAssetAccount = async (
 }
 
 // 从 okx 提币 (地址需要在白单中)
-export const depositFromOkx = async (
+export const withdrawFromOkx = async (
   address: Address,
   ccy: string,
   amount: number,
@@ -65,7 +65,7 @@ export const depositFromOkx = async (
 }
 
 // 从 binance 提币
-export const depositFromBinance = async (
+export const withdrawFromBinance = async (
   address: Address,
   coin: string,
   amount: number,

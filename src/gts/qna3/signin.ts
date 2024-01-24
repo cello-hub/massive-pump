@@ -9,7 +9,7 @@ import {
 import { generateAccounts } from '@/accouts'
 import type { Account } from 'viem/accounts'
 import { bsc } from 'viem/chains'
-import { depositFromBinance } from '@/accouts/deposit'
+import { withdrawFromBinance } from '@/accouts/withdraw'
 
 const chain = bsc
 const mnemonic = process.env.MNEMONIC || ''
@@ -99,7 +99,7 @@ const checkIn = async (token: string, hash: Hex, via: string) => {
 // 给账户充值
 const deposit = () => {
   accounts.forEach((account) => {
-    depositFromBinance(account.address, 'BNB', 0.01)
+    withdrawFromBinance(account.address, 'BNB', 0.01)
       .then(() => {
         console.log(`${account.address} 充值成功`)
       })
