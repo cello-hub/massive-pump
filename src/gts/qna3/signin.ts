@@ -97,30 +97,17 @@ const checkIn = async (token: string, hash: Hex, via: string) => {
 }
 
 const run = async () => {
-  // const signinPromises = accounts.map(async (account) => {
-  //   return signIn(account,       '0xB342e7D33b806544609370271A8D074313B7bc30',
-  //   '0xe95a644f0000000000000000000000000000000000000000000000000000000000000001')
-  // }
-  // accounts.forEach(async (account) => {
-  //   await signIn(
-  //     account,
-  //     '0xB342e7D33b806544609370271A8D074313B7bc30',
-  //     '0xe95a644f0000000000000000000000000000000000000000000000000000000000000001'
-  //   )
-  // })
+  // 为防止意外失败, 可从指定账号顺序开始
+  const start = 0
+  for (let i = start; i < accounts.length; i++) {
+    console.log(`index=${i}------------------`)
 
-  for (let i = 0; i < accounts.length; i++) {
     await signIn(
       accounts[i],
       '0xB342e7D33b806544609370271A8D074313B7bc30',
       '0xe95a644f0000000000000000000000000000000000000000000000000000000000000001'
     )
   }
-  // signIn(
-  //   accounts[0],
-  //   '0xB342e7D33b806544609370271A8D074313B7bc30',
-  //   '0xe95a644f0000000000000000000000000000000000000000000000000000000000000001'
-  // )
 }
 
 run()
