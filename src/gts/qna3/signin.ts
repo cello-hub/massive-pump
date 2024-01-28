@@ -6,17 +6,9 @@ import {
   type Address,
   type Hex
 } from 'viem'
-import { generateAccounts } from '@/accouts'
-import type { Account } from 'viem/accounts'
-import { opBNB } from 'viem/chains'
-import { withdrawFromBinance } from '@/accouts/withdraw'
-
-const chain = opBNB
-const mnemonic = process.env.MNEMONIC || ''
-const rpc = process.env.OPBNB_RPC
-const involveAccountCount = 100
-
-const accounts = generateAccounts(mnemonic, involveAccountCount)
+import { type Account } from 'viem/accounts'
+import { accounts, chain, inviteCode, rpc } from './constants'
+import { setTimeout } from 'timers/promises'
 
 const publicClient = createPublicClient({
   chain,
@@ -37,19 +29,23 @@ const getUserToken = async (account: Account) => {
   const response = await axios.post(
     'https://api.qna3.ai/api/v2/auth/login?via=wallet',
     {
+      invite_code: inviteCode,
       signature: signedMessage,
       wallet_address: account.address
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Origin: 'https://qna3.ai'
+      }
     }
   )
-
   return response.data.data.accessToken
 }
 
 // 签到
 const signIn = async (account: Account, target: Address, data: Hex) => {
   const token = await getUserToken(account)
-  console.log('token: ', token)
-
   const walletClient = createWalletClient({
     chain,
     account,
@@ -70,9 +66,11 @@ const signIn = async (account: Account, target: Address, data: Hex) => {
     .then(async () => {
       console.log(`${account.address} 签到交易成功`)
 
-      await checkIn(token, hash, 'bnb')
-
-      console.log(`${account.address} 签到成功`)
+      // 等待 1.5s, 防止签到失败
+      await setTimeout(1500)
+      await checkIn(token, hash, 'opbnb').then(() => {
+        console.log(`${account.address} 签到成功`)
+      })
     })
 }
 
@@ -87,35 +85,42 @@ const checkIn = async (token: string, hash: Hex, via: string) => {
       },
       {
         headers: {
+          'Content-Type': 'application/json',
+          Origin: 'https://qna3.ai',
           Authorization: 'Bearer ' + token
         }
       }
     )
-    .then(() => {})
+    .catch((e) => {
+      console.log(e)
+    })
 }
 
-// 给账户充值
-const deposit = () => {
-  accounts.forEach((account) => {
-    withdrawFromBinance(account.address, 'BNB', 0.01)
-      .then(() => {
-        console.log(`${account.address} 充值成功`)
-      })
-      .catch((err) => {
-        console.log(`${account.address} 充值失败`, err)
-      })
-  })
-}
+const run = async () => {
+  // const signinPromises = accounts.map(async (account) => {
+  //   return signIn(account,       '0xB342e7D33b806544609370271A8D074313B7bc30',
+  //   '0xe95a644f0000000000000000000000000000000000000000000000000000000000000001')
+  // }
+  // accounts.forEach(async (account) => {
+  //   await signIn(
+  //     account,
+  //     '0xB342e7D33b806544609370271A8D074313B7bc30',
+  //     '0xe95a644f0000000000000000000000000000000000000000000000000000000000000001'
+  //   )
+  // })
 
-const run = () => {
-  accounts.forEach((account) => {
-    signIn(
-      account,
+  for (let i = 0; i < accounts.length; i++) {
+    await signIn(
+      accounts[i],
       '0xB342e7D33b806544609370271A8D074313B7bc30',
       '0xe95a644f0000000000000000000000000000000000000000000000000000000000000001'
     )
-  })
+  }
+  // signIn(
+  //   accounts[0],
+  //   '0xB342e7D33b806544609370271A8D074313B7bc30',
+  //   '0xe95a644f0000000000000000000000000000000000000000000000000000000000000001'
+  // )
 }
 
-// deposit()
 run()

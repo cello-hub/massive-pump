@@ -70,12 +70,18 @@ export const withdrawFromOkx = async (
 /**
  * 从 binance 提币
  */
-export const withdrawFromBinance = async (
-  address: Address,
-  coin: string,
-  amount: number,
-  params: any = {},
-  tags: any = ''
-) => {
+export const withdrawFromBinance = async ({
+  address,
+  coin,
+  amount,
+  params = {},
+  tags = ''
+}: {
+  address: Address
+  coin: string
+  amount: number
+  params?: any
+  tags?: any
+}) => {
   return binanceClient.withdraw(coin, amount, address, tags, params)
 }

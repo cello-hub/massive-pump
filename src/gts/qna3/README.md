@@ -1,16 +1,26 @@
 官网: https://qna3.ai/vote
 
-签到脚本 `signin.ts` 需先从 binance 提 bnb 到需要的账户, 再调用 run 方法签到
+## 提币
 
-参数介绍
+- 币安创建 API, 勾选提币功能
+- 创建 .env 文件写入变量 `BINANCE_APIKEY` 和 `BINANCE_SECRETKEY`
 
-```ts
-// 参与的链, opBNB 有额外20%加成
-const chain = opBNB
-// 助记词
-const mnemonic = process.env.MNEMONIC || ''
-// rpc 链接
-const rpc = process.env.OPBNB_RPC
-// 参与的账号数量
-const involveAccountCount = 100
+## 生成随机助记词
+
+执行下面命令生成助记词
+
+```shell
+bun run src/accouts/mnemonic.ts
+```
+
+将结果写入 .env 文件变量 `MNEMONIC`
+
+## 执行签到脚本
+
+可修改变量文件 `constants`
+
+执行签到
+
+```shell
+bun run src/gts/qna3/signin.ts
 ```
