@@ -98,7 +98,7 @@ const checkIn = async (token: string, hash: Hex, via: string) => {
 
 const run = async () => {
   // 为防止意外失败, 可从指定账号顺序开始
-  const start = 0
+  const start = 57
   for (let i = start; i < accounts.length; i++) {
     console.log(`index=${i}------------------`)
 

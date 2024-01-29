@@ -12,12 +12,17 @@ import type { Chain } from 'viem/chains'
 /**
  * 从链上钱包转账
  */
-export const withdrawFromAssetAccount = async (
-  chain: Chain,
-  rpc: string,
-  target: Address,
+export const withdrawFromAssetAccount = async ({
+  chain,
+  rpc,
+  target,
+  value
+}: {
+  chain: Chain
+  rpc: string
+  target: Address
   value: bigint
-) => {
+}) => {
   if (!process.env.ASSET_ACCOUNT_SECRET) {
     throw new Error('ASSET_ACCOUNT_SECRET is not set in .env file')
   }
@@ -55,15 +60,19 @@ export const withdrawFromAssetAccount = async (
 /**
  * 从 okx 提币 (地址需要在白单中)
  */
-export const withdrawFromOkx = async (
-  address: Address,
-  ccy: string,
-  amount: number,
-  params: any = {
-    pwd: '-'
-  },
-  tags: any = ''
-) => {
+export const withdrawFromOkx = async ({
+  address,
+  ccy,
+  amount,
+  params = { pwd: '-' },
+  tags = ''
+}: {
+  address: Address
+  ccy: string
+  amount: number
+  params: any
+  tags: any
+}) => {
   return okxClient.withdraw(ccy, amount, address, tags, params)
 }
 

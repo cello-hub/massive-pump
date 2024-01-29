@@ -1,5 +1,5 @@
 import type { Account } from 'viem'
-import { english, generateMnemonic, mnemonicToAccount } from 'viem/accounts'
+import { mnemonicToAccount } from 'viem/accounts'
 
 /**
  * 由助记词生成多个钱包地址

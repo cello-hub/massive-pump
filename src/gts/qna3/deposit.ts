@@ -1,7 +1,5 @@
-import { generateAccounts, withdrawFromBinance } from '@/accouts'
-import { involveAccountCount, mnemonic } from './constants'
-
-const accounts = generateAccounts(mnemonic, involveAccountCount)
+import { withdrawFromBinance } from '@/accouts'
+import { accounts } from './constants'
 
 // 给账户充值
 const deposit = () => {
