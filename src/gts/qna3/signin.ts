@@ -7,47 +7,20 @@ import {
   type Hex
 } from 'viem'
 import { type Account } from 'viem/accounts'
-import { accounts, chain, inviteCode, rpc } from './constants'
+import { accounts, singInChain, contractAddress, rpc } from './constants'
 import { setTimeout } from 'timers/promises'
+import { getUserToken } from './common'
 
 const publicClient = createPublicClient({
-  chain,
+  chain: singInChain,
   transport: http(rpc)
 })
 
-// 获取 token
-const getUserToken = async (account: Account) => {
-  const walletClient = createWalletClient({
-    chain,
-    account,
-    transport: http(rpc)
-  })
-  const signedMessage = await walletClient.signMessage({
-    message: 'AI + DYOR = Ultimate Answer to Unlock Web3 Universe'
-  })
-
-  const response = await axios.post(
-    'https://api.qna3.ai/api/v2/auth/login?via=wallet',
-    {
-      invite_code: inviteCode,
-      signature: signedMessage,
-      wallet_address: account.address
-    },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Origin: 'https://qna3.ai'
-      }
-    }
-  )
-  return response.data.data.accessToken
-}
-
 // 签到
 const signIn = async (account: Account, target: Address, data: Hex) => {
-  const token = await getUserToken(account)
+  const token = await getUserToken(account, singInChain, rpc)
   const walletClient = createWalletClient({
-    chain,
+    chain: singInChain,
     account,
     transport: http(rpc)
   })
@@ -104,7 +77,7 @@ const run = async () => {
 
     await signIn(
       accounts[i],
-      '0xB342e7D33b806544609370271A8D074313B7bc30',
+      contractAddress,
       '0xe95a644f0000000000000000000000000000000000000000000000000000000000000001'
     )
   }
