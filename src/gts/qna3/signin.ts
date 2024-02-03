@@ -7,9 +7,9 @@ import {
   type Hex
 } from 'viem'
 import { type Account } from 'viem/accounts'
-import { accounts, singInChain, contractAddress, rpc } from './constants'
+import { accounts, singInChain, contractAddress, rpc } from './core/constants'
 import { setTimeout } from 'timers/promises'
-import { getUserToken } from './common'
+import { getUserToken } from './core/common'
 
 const publicClient = createPublicClient({
   chain: singInChain,

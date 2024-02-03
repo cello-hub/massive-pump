@@ -7,10 +7,10 @@ import {
   type Account,
   type Hex
 } from 'viem'
-import ABI from './abi'
+import ABI from './core/abi'
 
-import { accounts, bnbRpc, claimChain, contractAddress } from './constants'
-import { getUserToken } from './common'
+import { accounts, bnbRpc, claimChain, contractAddress } from './core/constants'
+import { getUserToken } from './core/common'
 import { setTimeout } from 'timers/promises'
 
 const publicClient = createPublicClient({

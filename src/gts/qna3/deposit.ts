@@ -1,5 +1,5 @@
 import { withdrawFromBinance } from '@/accouts'
-import { accounts } from './constants'
+import { accounts } from './core/constants'
 
 // 给账户充值
 const deposit = () => {
